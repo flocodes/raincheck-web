@@ -7,6 +7,7 @@ import EditTrip from './trip/EditTrip'
 import Login from './Login'
 import { green, red } from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import requiresLogin from './RequiresLogin'
 
 const theme = createMuiTheme({
   palette: {
@@ -37,9 +38,12 @@ function App () {
         <Header />
         <div className={classes.AppBarSpacer} />
         <Switch>
-          <Route exact path='/' component={TripList} />
+          {/* TODO: Landing page */}
+          <Route exact path='/' component={Login} />
           <Route exact path='/login' component={Login} />
-          <Route exact path='/trip/:id' component={EditTrip} />
+          <Route exact path='/signup' render={() => <Login login={false} />} />
+          <Route exact path='/trips' component={requiresLogin(TripList)} />
+          <Route exact path='/trip/:id' component={requiresLogin(EditTrip)} />
           />
         </Switch>
       </MuiThemeProvider>

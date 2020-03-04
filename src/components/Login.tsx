@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-apollo'
-import { withRouter } from 'react-router'
+import { withRouter, Redirect, RouteComponentProps } from 'react-router'
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/mutations'
-import { Typography, TextField, Paper, makeStyles, Button, Link, Container } from '@material-ui/core'
+import { Typography, TextField, Paper, makeStyles, Button, Link, Container, CircularProgress } from '@material-ui/core'
 import basicStyles from '../styles/basicStyles'
+import { loggedIn } from '../util/auth'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -23,19 +24,31 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'baseline',
     marginTop: theme.spacing(2),
   },
+  progress: {
+    alignSelf: 'center',
+  },
   ...basicStyles(theme),
 }))
 
-// TODO: Redirect to '/' when already logged in
+interface LoginProps extends RouteComponentProps<any> {
+  login?: boolean
+}
+
+// TODO: Validate email
 // TODO: Validate password (min length etc)
-function Login (props: any) {
+function Login (props: LoginProps) {
   const classes = useStyles()
 
-  const [login, setLogin] = useState(true)
+  const [login, setLogin] = useState(props.login === undefined ? true : props.login)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [loggingIn, setLoggingIn] = useState(false)
 
-  const [mutation, result] = useMutation(login ? LOGIN_MUTATION : SIGNUP_MUTATION)
+  const [mutation, _result] = useMutation(login ? LOGIN_MUTATION : SIGNUP_MUTATION)
+
+  if (loggedIn()) {
+    return <Redirect to='/trips' />
+  }
 
   return (
     <Container
@@ -49,9 +62,9 @@ function Login (props: any) {
         <form
           onSubmit={async e => {
             e.preventDefault()
-            // TODO: Show loading screen instead of just waiting
+            setLoggingIn(true)
             await mutation({ variables: { email, password } })
-            props.history.push('/')
+            props.history.push('/trips')
           }}
         >
           <Typography variant='h4' className={classes.mb2}>{login ? 'Login' : 'Sign Up'}</Typography>
@@ -85,6 +98,7 @@ function Login (props: any) {
               >
                 {login ? 'login' : 'create account'}
               </Button>
+              {loggingIn && <CircularProgress className={classes.progress} size={32} />}
               <div style={{ flexGrow: 1 }} />
               <Link
                 variant='body2'

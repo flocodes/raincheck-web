@@ -46,8 +46,8 @@ function EditTripCore (props: EditTripProps) {
 
   const valid = (fromValid && toValid && nameValid)
 
-  const [mutation, result] = useMutation(new_trip ? CREATE_TRIP_MUTATION : UPDATE_TRIP_MUTATION)
-  const [delete_mutation, delete_result] = useMutation(DELETE_TRIP_MUTATION)
+  const [mutation, _result] = useMutation(new_trip ? CREATE_TRIP_MUTATION : UPDATE_TRIP_MUTATION)
+  const [delete_mutation, _deleteResult] = useMutation(DELETE_TRIP_MUTATION)
 
   const onValueChange = (key: keyof T_Trip, value: any) => {
     // Type workaround, do not want a complicated type definition just for this update shorthand
@@ -99,7 +99,7 @@ function EditTripCore (props: EditTripProps) {
       console.log('Submitting trip:')
       console.log(tripSubmit)
       mutation({ variables: { ...tripSubmit } })
-      props.history.push('/')
+      props.history.push('/trips')
     }
   }
 
@@ -181,7 +181,7 @@ function EditTripCore (props: EditTripProps) {
               variant='contained'
               onClick={async () => {
                 await delete_mutation({ variables: { id: trip.id } })
-                props.history.push('/')
+                props.history.push('/trips')
               }}
             >
               Delete

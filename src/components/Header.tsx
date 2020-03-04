@@ -4,6 +4,9 @@ import { withRouter } from 'react-router'
 import { AppBar, Toolbar, Typography, Button, makeStyles } from '@material-ui/core'
 import clsx from 'clsx'
 import basicStyles from '../styles/basicStyles'
+import { useMutation } from 'react-apollo'
+import { LOGOUT_MUTATION } from '../graphql/mutations'
+import { loggedIn } from '../util/auth'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -15,9 +18,8 @@ const useStyles = makeStyles(theme => ({
 function Header (props: any) {
   const classes = useStyles()
 
-  // TODO: Find a way to check whether we are logged in
-  // TODO: Allow user to log out
-  const token = true
+  const [mutation, _result] = useMutation(LOGOUT_MUTATION)
+
   return (
     <AppBar position='static'>
       <Toolbar>
@@ -30,24 +32,12 @@ function Header (props: any) {
             Raincheck
           </Typography>
         </Link>
-        {/*
-        <Link to='/trip/new'>
-          <Button
-            variant='contained'
-
-          >
-            <div style={{ display: 'flex' }}>
-              <div className={clsx('material-icons', classes.material_icon)}>add</div>
-              <div>Create new trip</div>
-            </div>
-          </Button>
-        </Link>
-        */}
         <div className={classes.grow} />
-        {token && (
+        {loggedIn() && (
           <Button
             variant='contained'
             onClick={() => {
+              mutation()
               props.history.push('/login')
             }}
           >
