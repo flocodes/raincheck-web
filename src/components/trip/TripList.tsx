@@ -1,7 +1,6 @@
 import React from 'react'
 import Trip from './Trip'
 import { useQuery } from '@apollo/react-hooks'
-import { Redirect } from 'react-router'
 import { ME_QUERY } from '../../graphql/queries'
 import { Link } from 'react-router-dom'
 import { makeStyles, Fab, Typography, Container } from '@material-ui/core'
@@ -45,7 +44,6 @@ function TripList () {
   }
   if (error) {
     console.log(error)
-    return <Redirect to='/login' />
   }
   return (
     <Container

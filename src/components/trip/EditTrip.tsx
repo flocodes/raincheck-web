@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-apollo'
 import { TRIP_QUERY } from '../../graphql/queries'
 import EditTripCore from './EditTripCore'

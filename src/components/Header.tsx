@@ -1,6 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { withRouter } from 'react-router'
+import { withRouter, Link } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Button, makeStyles } from '@material-ui/core'
 import clsx from 'clsx'
 import basicStyles from '../styles/basicStyles'
@@ -36,8 +35,9 @@ function Header (props: any) {
         {loggedIn() && (
           <Button
             variant='contained'
-            onClick={() => {
-              mutation()
+            onClick={async () => {
+              // Have to wait for mutation results
+              await mutation()
               props.history.push('/login')
             }}
           >

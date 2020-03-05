@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router'
+import { Route, Switch } from 'react-router-dom'
 import { createMuiTheme, MuiThemeProvider, makeStyles } from '@material-ui/core'
 import Header from './Header'
 import TripList from './trip/TripList'

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { withRouter, RouteComponentProps } from 'react-router'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { CREATE_TRIP_MUTATION, UPDATE_TRIP_MUTATION, DELETE_TRIP_MUTATION } from '../../graphql/mutations'
 import LocationPickDisplay from '../location/LocationPickDisplay'
 import { useMutation } from 'react-apollo'

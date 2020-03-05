@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-apollo'
-import { withRouter, Redirect, RouteComponentProps } from 'react-router'
+import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom'
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/mutations'
 import { Typography, TextField, Paper, makeStyles, Button, Link, Container, CircularProgress } from '@material-ui/core'
 import basicStyles from '../styles/basicStyles'
@@ -63,6 +63,8 @@ function Login (props: LoginProps) {
           onSubmit={async e => {
             e.preventDefault()
             setLoggingIn(true)
+            // have to wait for mutation results to avoid multiple redirects
+            // '/trips' redirects back here when mutation not finished, but this redirects back to /trips
             await mutation({ variables: { email, password } })
             props.history.push('/trips')
           }}

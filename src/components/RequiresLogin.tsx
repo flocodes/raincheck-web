@@ -1,5 +1,5 @@
 import { loggedIn } from '../util/auth'
-import { Redirect } from 'react-router'
+import { Redirect } from 'react-router-dom'
 import React from 'react'
 
 function requiresLogin (Component: React.ComponentType<any>): React.ComponentType<any> {
