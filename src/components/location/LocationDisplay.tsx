@@ -27,23 +27,23 @@ function LocationDisplay (props: LocationDisplayProps) {
   })
 
   // Fallback: Use format latitude/longitude as default
-  let location_string = formatLocation(props.lat, props.lon)
-  if (cached !== null && cached.label !== undefined) location_string = cached.label
+  let locationString = formatLocation(props.lat, props.lon)
+  if (cached !== null && cached.label !== undefined) locationString = cached.label
 
   // Use the query data if no cached data available
   if (!skipQuery) {
-    if (query.loading) location_string = 'Fetching...'
+    if (query.loading) locationString = 'Fetching...'
     if (query.error) {
       console.log(`Error reverse geocoding location: ${query.error}`)
-      location_string = formatLocation(props.lat, props.lon)
+      locationString = formatLocation(props.lat, props.lon)
     }
     if (query.data) {
-      location_string = query.data.rgeocode.label
+      locationString = query.data.rgeocode.label
       addToCache(query.data.rgeocode)
     }
   }
 
-  return <Typography variant='body1'>{location_string}</Typography>
+  return <Typography variant='body1'>{locationString}</Typography>
 }
 
 export default LocationDisplay

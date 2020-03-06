@@ -1,4 +1,7 @@
-export interface T_Trip {
+// ignore non-camelcase variable names for DB column names
+
+export interface Trip {
+  /* eslint-disable camelcase */
   id: string
   enabled: boolean
   name: string
@@ -9,9 +12,11 @@ export interface T_Trip {
   to_lat: number
   to_lon: number
   notify_at: Date
+  /* eslint-enable camelcase */
 }
 
-export interface T_NewTrip {
+export interface NewTrip {
+  /* eslint-disable camelcase */
   id: null
   enabled: boolean
   name: null
@@ -22,4 +27,5 @@ export interface T_NewTrip {
   to_lat: null
   to_lon: null
   notify_at: Date
+  /* eslint-enable camelcase */
 }

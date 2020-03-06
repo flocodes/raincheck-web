@@ -6,7 +6,7 @@ import { useMutation } from 'react-apollo'
 import { TextField, Paper, makeStyles, Button, Typography, Container } from '@material-ui/core'
 import Duration from '../time/Duration'
 import Notify from '../time/Notify'
-import { T_NewTrip, T_Trip } from '../../util/types'
+import { NewTrip, Trip } from '../../util/types'
 import basicStyles from '../../styles/basicStyles'
 import { convertDate } from '../../util/format'
 
@@ -14,7 +14,7 @@ import { convertDate } from '../../util/format'
 // const sleep = (ms: number) => { return new Promise(resolve => setTimeout(resolve, ms)) }
 
 export interface EditTripProps extends RouteComponentProps<any> {
-  trip: T_NewTrip | T_Trip
+  trip: NewTrip | Trip
 }
 
 const useStyles = makeStyles(theme => ({
@@ -34,9 +34,9 @@ const useStyles = makeStyles(theme => ({
 
 function EditTripCore (props: EditTripProps) {
   const classes = useStyles()
-  const new_trip = (props.trip.id === null)
+  const newTrip = (props.trip.id === null)
   const tripFromProps = { ...props.trip }
-  if (new_trip) {
+  if (newTrip) {
     delete tripFromProps.id
   }
   const [trip, setTrip] = useState(tripFromProps)
@@ -46,14 +46,14 @@ function EditTripCore (props: EditTripProps) {
 
   const valid = (fromValid && toValid && nameValid)
 
-  const [mutation, result] = useMutation(new_trip ? CREATE_TRIP_MUTATION : UPDATE_TRIP_MUTATION)
-  const [delete_mutation, deleteResult] = useMutation(DELETE_TRIP_MUTATION)
+  const [mutation, result] = useMutation(newTrip ? CREATE_TRIP_MUTATION : UPDATE_TRIP_MUTATION)
+  const [deleteMutation, deleteResult] = useMutation(DELETE_TRIP_MUTATION)
 
-  const onValueChange = (key: keyof T_Trip, value: any) => {
+  const onValueChange = (key: keyof Trip, value: any) => {
     // Type workaround, do not want a complicated type definition just for this update shorthand
-    const trip_new: any = { ...trip }
-    trip_new[key] = value
-    setTrip(trip_new)
+    const tripNew: any = { ...trip }
+    tripNew[key] = value
+    setTrip(tripNew)
   }
 
   const onNameChange = (name: string) => {
@@ -63,10 +63,10 @@ function EditTripCore (props: EditTripProps) {
 
   const onLocationChange = (which: 'from'|'to', lat: number, lon: number) => {
     // Type workaround, do not want a complicated type definition just for this update shorthand
-    const trip_new: any = { ...trip }
-    trip_new[`${which}_lat`] = lat
-    trip_new[`${which}_lon`] = lon
-    setTrip(trip_new)
+    const tripNew: any = { ...trip }
+    tripNew[`${which}_lat`] = lat
+    tripNew[`${which}_lon`] = lon
+    setTrip(tripNew)
   }
 
   const onTimeChange = (which: string, time: Date) => {
@@ -114,7 +114,7 @@ function EditTripCore (props: EditTripProps) {
         className={classes.formContainer}
       >
         <Typography variant='h4' className={classes.mb2}>
-          {new_trip ? 'New trip' : 'Edit trip'}
+          {newTrip ? 'New trip' : 'Edit trip'}
         </Typography>
         <TextField
           fullWidth
@@ -127,14 +127,14 @@ function EditTripCore (props: EditTripProps) {
         />
         <Notify
           enabled={trip.enabled}
-          notify_at={trip.notify_at}
+          notifyAt={trip.notify_at}
           onChange={onValueChange}
         />
         <div className={classes.mb2} />
         <LocationPickDisplay
           id='from'
           label='From'
-          edit={new_trip}
+          edit={newTrip}
           lat={trip.from_lat}
           lon={trip.from_lon}
           onChange={onLocationChange}
@@ -143,7 +143,7 @@ function EditTripCore (props: EditTripProps) {
         <LocationPickDisplay
           id='to'
           label='To'
-          edit={new_trip}
+          edit={newTrip}
           lat={trip.to_lat}
           lon={trip.to_lon}
           onChange={onLocationChange}
@@ -174,14 +174,14 @@ function EditTripCore (props: EditTripProps) {
               submitForm()
             }}
           >
-            {new_trip ? 'Create' : 'Update'}
+            {newTrip ? 'Create' : 'Update'}
           </Button>
           <div style={{ flexGrow: 1 }} />
-          {!new_trip && (
+          {!newTrip && (
             <Button
               variant='contained'
               onClick={async () => {
-                await delete_mutation({ variables: { id: trip.id } })
+                await deleteMutation({ variables: { id: trip.id } })
                 if (deleteResult.error) console.log(deleteResult.error)
                 props.history.push('/trips')
               }}

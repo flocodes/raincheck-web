@@ -33,13 +33,13 @@ const useStyles = makeStyles({
   },
 })
 
-const http_link = createHttpLink({
+const httpLink = createHttpLink({
   uri: 'http://localhost:4000',
   credentials: 'include'
 })
 
 const client = new ApolloClient({
-  link: http_link,
+  link: httpLink,
   cache: new InMemoryCache()
 })
 

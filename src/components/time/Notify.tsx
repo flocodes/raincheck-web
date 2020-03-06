@@ -4,7 +4,7 @@ import SingleTime from './SingleTime'
 
 interface NotifyProps {
   enabled: boolean
-  notify_at: Date
+  notifyAt: Date
   onChange: (which: 'enabled'|'notify_at', value: boolean|Date) => void
 }
 
@@ -25,7 +25,7 @@ function Notify (props: NotifyProps) {
         <SingleTime
           id='notify_at'
           label='Notify at'
-          time={props.notify_at}
+          time={props.notifyAt}
           onChange={(label: string, date: any) => { props.onChange('notify_at', date) }}
           disabled={!props.enabled}
         />

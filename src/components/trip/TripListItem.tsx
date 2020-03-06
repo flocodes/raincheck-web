@@ -5,11 +5,11 @@ import { Card, makeStyles, CardContent, CardActionArea, Typography } from '@mate
 import clsx from 'clsx'
 import { Link } from 'react-router-dom'
 import { grey } from '@material-ui/core/colors'
-import { T_Trip } from '../../util/types'
+import { Trip } from '../../util/types'
 import basicStyles from '../../styles/basicStyles'
 
 export interface TripProps {
-  trip: T_Trip
+  trip: Trip
 }
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   ...basicStyles(theme),
 }))
 
-function Trip (props: TripProps) {
+function TripListItem (props: TripProps) {
   const classes = useStyles()
 
   return (
@@ -84,4 +84,4 @@ function Trip (props: TripProps) {
   )
 }
 
-export default Trip
+export default TripListItem

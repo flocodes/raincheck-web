@@ -15,13 +15,13 @@ function EditTrip () {
     throw new Error('No trip ID provided')
   }
 
-  const new_trip = (params.id === 'new')
+  const newTrip = (params.id === 'new')
   const { loading, error, data } = useQuery(TRIP_QUERY, {
     variables: { id: params.id },
-    skip: new_trip
+    skip: newTrip
   })
 
-  if (new_trip) {
+  if (newTrip) {
     return (
       <EditTripCore trip={{
         id: null,
