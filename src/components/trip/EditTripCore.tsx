@@ -46,8 +46,8 @@ function EditTripCore (props: EditTripProps) {
 
   const valid = (fromValid && toValid && nameValid)
 
-  const [mutation, _result] = useMutation(new_trip ? CREATE_TRIP_MUTATION : UPDATE_TRIP_MUTATION)
-  const [delete_mutation, _deleteResult] = useMutation(DELETE_TRIP_MUTATION)
+  const [mutation, result] = useMutation(new_trip ? CREATE_TRIP_MUTATION : UPDATE_TRIP_MUTATION)
+  const [delete_mutation, deleteResult] = useMutation(DELETE_TRIP_MUTATION)
 
   const onValueChange = (key: keyof T_Trip, value: any) => {
     // Type workaround, do not want a complicated type definition just for this update shorthand
@@ -88,7 +88,7 @@ function EditTripCore (props: EditTripProps) {
   }
 
   // Create/update trip, converting the datetimes so all dates are UTC 1970-01-01
-  const submitForm = () => {
+  const submitForm = async () => {
     // Typescript...
     const tripSubmit: any = { ...trip }
     for (const key of ['start', 'end', 'notify_at']) {
@@ -98,7 +98,8 @@ function EditTripCore (props: EditTripProps) {
     if (valid) {
       console.log('Submitting trip:')
       console.log(tripSubmit)
-      mutation({ variables: { ...tripSubmit } })
+      await mutation({ variables: { ...tripSubmit } })
+      if (result.error) console.log(result.error)
       props.history.push('/trips')
     }
   }
@@ -181,6 +182,7 @@ function EditTripCore (props: EditTripProps) {
               variant='contained'
               onClick={async () => {
                 await delete_mutation({ variables: { id: trip.id } })
+                if (deleteResult.error) console.log(deleteResult.error)
                 props.history.push('/trips')
               }}
             >

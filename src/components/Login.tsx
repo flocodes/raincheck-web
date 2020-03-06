@@ -44,7 +44,7 @@ function Login (props: LoginProps) {
   const [password, setPassword] = useState('')
   const [loggingIn, setLoggingIn] = useState(false)
 
-  const [mutation, _result] = useMutation(login ? LOGIN_MUTATION : SIGNUP_MUTATION)
+  const [mutation, result] = useMutation(login ? LOGIN_MUTATION : SIGNUP_MUTATION)
 
   if (loggedIn()) {
     return <Redirect to='/trips' />
@@ -66,6 +66,7 @@ function Login (props: LoginProps) {
             // have to wait for mutation results to avoid multiple redirects
             // '/trips' redirects back here when mutation not finished, but this redirects back to /trips
             await mutation({ variables: { email, password } })
+            if (result.error) console.log(result.error)
             props.history.push('/trips')
           }}
         >

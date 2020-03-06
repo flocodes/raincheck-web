@@ -11,7 +11,7 @@ interface TimeProps {
   onChange: (label: string, time: Date) => void
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   timePicker: {
     width: 130,
   },

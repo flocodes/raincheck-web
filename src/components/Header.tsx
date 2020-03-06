@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
 function Header (props: any) {
   const classes = useStyles()
 
-  const [mutation, _result] = useMutation(LOGOUT_MUTATION)
+  const [mutation, result] = useMutation(LOGOUT_MUTATION)
 
   return (
     <AppBar position='static'>
@@ -38,6 +38,7 @@ function Header (props: any) {
             onClick={async () => {
               // Have to wait for mutation results
               await mutation()
+              if (result.error) console.log(result.error)
               props.history.push('/login')
             }}
           >
