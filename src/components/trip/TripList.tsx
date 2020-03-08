@@ -2,11 +2,12 @@ import React from 'react'
 import TripListItem from './TripListItem'
 import { useQuery } from '@apollo/react-hooks'
 import { ME_QUERY } from '../../graphql/queries'
-import { Link } from 'react-router-dom'
-import { makeStyles, Fab, Typography, Container } from '@material-ui/core'
+import { Link, Redirect } from 'react-router-dom'
+import { makeStyles, Fab, Container } from '@material-ui/core'
 import { Trip } from '../../util/types'
 import clsx from 'clsx'
 import basicStyles from '../../styles/basicStyles'
+import LoadingScreen from '../LoadingScreen'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -34,17 +35,16 @@ function TripList () {
   const { loading, error, data } = useQuery(ME_QUERY)
 
   if (loading) {
-    return (
-      <Typography
-        variant='body1'
-      >
-        Fetching your trips...
-      </Typography>
-    )
+    return <LoadingScreen />
   }
+
   if (error) {
+    if (error.graphQLErrors.some(error => error.name === 'NotAuthenticated')) {
+      return <Redirect to='/login' />
+    }
     console.log(error)
   }
+
   return (
     <Container
       maxWidth='md'

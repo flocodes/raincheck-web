@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { useMutation } from 'react-apollo'
+import { useMutation, useQuery } from 'react-apollo'
 import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom'
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/mutations'
 import { Typography, TextField, Paper, makeStyles, Button, Link, Container, CircularProgress } from '@material-ui/core'
 import basicStyles from '../styles/basicStyles'
-import { loggedIn } from '../util/auth'
+import { LOGGEDIN_QUERY } from '../graphql/queries'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -46,7 +46,12 @@ function Login (props: LoginProps) {
 
   const [mutation, result] = useMutation(login ? LOGIN_MUTATION : SIGNUP_MUTATION)
 
-  if (loggedIn()) {
+  const { loading, error, data } = useQuery(LOGGEDIN_QUERY)
+
+  if (error && !error.graphQLErrors.some(error => error.name === 'NotAuthenticated')) {
+    console.log(error)
+  }
+  if (!loading && data && data.me.id) {
     return <Redirect to='/trips' />
   }
 

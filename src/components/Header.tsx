@@ -1,11 +1,10 @@
 import React from 'react'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter, Link, RouteComponentProps } from 'react-router-dom'
 import { AppBar, Toolbar, Typography, Button, makeStyles } from '@material-ui/core'
 import clsx from 'clsx'
 import basicStyles from '../styles/basicStyles'
 import { useMutation } from 'react-apollo'
 import { LOGOUT_MUTATION } from '../graphql/mutations'
-import { loggedIn } from '../util/auth'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -14,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   ...basicStyles(theme),
 }))
 
-function Header (props: any) {
+function Header (props: RouteComponentProps<any>) {
   const classes = useStyles()
 
   const [mutation, result] = useMutation(LOGOUT_MUTATION)
@@ -32,7 +31,7 @@ function Header (props: any) {
           </Typography>
         </Link>
         <div className={classes.grow} />
-        {loggedIn() && (
+        {true && (
           <Button
             variant='contained'
             onClick={async () => {

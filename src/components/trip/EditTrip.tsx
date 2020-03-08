@@ -1,9 +1,9 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 import { useQuery } from 'react-apollo'
 import { TRIP_QUERY } from '../../graphql/queries'
 import EditTripCore from './EditTripCore'
-import { Typography } from '@material-ui/core'
+import LoadingScreen from '../LoadingScreen'
 
 interface TripURLParams {
   id?: string
@@ -38,14 +38,15 @@ function EditTrip () {
       />
     )
   }
-  if (loading) {
-    return (
-      <Typography variant='body1'>Fetching...</Typography>
-    )
-  }
+  if (loading) return <LoadingScreen />
   if (error) {
+    if (error.graphQLErrors && error.graphQLErrors.some(error => {
+      if (!error.extensions) return false
+      return error.extensions.code === 'NotAuthenticated'
+    })) {
+      return <Redirect to='/login' />
+    }
     console.log(error)
-    return <div>{error}</div>
   }
   if (data) {
     const tripProp = { ...data.trip }

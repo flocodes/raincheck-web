@@ -19,9 +19,12 @@ query Trip($id: ID!) {
 `
 
 // Query info and trips of a user
+// This MUST return an 'id' because we are using a different query to 'me' to check whether we are logged in that checks for the id
+// Otherwise, Apollo Client will throw an error about the missing 'id'
 export const ME_QUERY = gql`
-  {
+   {
     me {
+      id
       trips {
         id
         enabled
@@ -66,6 +69,15 @@ export const REVERSE_GEOCODE_QUERY = gql`
       street
       city
       country
+    }
+  }
+`
+
+// Check if logged in by querying 'me'
+export const LOGGEDIN_QUERY = gql`
+  query loggedin {
+    me {
+      id
     }
   }
 `

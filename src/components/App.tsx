@@ -7,7 +7,6 @@ import EditTrip from './trip/EditTrip'
 import Login from './Login'
 import { green, red } from '@material-ui/core/colors'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import requiresLogin from './RequiresLogin'
 import { ApolloClient } from 'apollo-boost'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -33,8 +32,10 @@ const useStyles = makeStyles({
   },
 })
 
+const databaseURI = process.env.NODE_ENV === 'production' ? 'http://104.248.252.134:4000' : 'http://localhost:4000'
+console.log(`Expecting DB at ${databaseURI}`)
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000',
+  uri: databaseURI,
   credentials: 'include'
 })
 
@@ -45,6 +46,7 @@ const client = new ApolloClient({
 
 function App () {
   const classes = useStyles()
+
   return (
     <BrowserRouter>
       <ApolloProvider client={client}>
@@ -57,8 +59,8 @@ function App () {
             <Route exact path='/' component={Login} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/signup' render={() => <Login login={false} />} />
-            <Route exact path='/trips' component={requiresLogin(TripList)} />
-            <Route exact path='/trip/:id' component={requiresLogin(EditTrip)} />
+            <Route exact path='/trips' component={TripList} />
+            <Route exact path='/trip/:id' component={EditTrip} />
             />
           </Switch>
         </MuiThemeProvider>

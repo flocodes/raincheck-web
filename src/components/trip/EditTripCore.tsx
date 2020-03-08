@@ -13,7 +13,7 @@ import { convertDate } from '../../util/format'
 // Sleep function to add delay
 // const sleep = (ms: number) => { return new Promise(resolve => setTimeout(resolve, ms)) }
 
-export interface EditTripProps extends RouteComponentProps<any> {
+export interface EditTripCoreProps extends RouteComponentProps<any> {
   trip: NewTrip | Trip
 }
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   ...basicStyles(theme),
 }))
 
-function EditTripCore (props: EditTripProps) {
+function EditTripCore (props: EditTripCoreProps) {
   const classes = useStyles()
   const newTrip = (props.trip.id === null)
   const tripFromProps = { ...props.trip }
@@ -149,7 +149,7 @@ function EditTripCore (props: EditTripProps) {
           onChange={onLocationChange}
           error={!toValid}
         />
-        <Typography variant='h5'>Duration</Typography>
+        <Typography variant='h5' className={classes.mb2}>Duration</Typography>
         <Duration
           start={trip.start}
           end={trip.end}

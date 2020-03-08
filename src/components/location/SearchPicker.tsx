@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { GEOCODE_QUERY } from '../../graphql/queries'
 import { useLazyQuery } from 'react-apollo'
-import { Typography, makeStyles, TextField, Button, IconButton } from '@material-ui/core'
+import { Typography, makeStyles, TextField, Button, IconButton, LinearProgress } from '@material-ui/core'
 import { LocationPickerProps } from './LocationPicker'
 import { addToCache } from '../../util/geocode'
 import basicStyles from '../../styles/basicStyles'
@@ -65,7 +65,7 @@ function SearchPicker (props: LocationPickerProps) {
 
   const QuerySuggestions = () => {
     if (loading) {
-      return <Typography>Fetching new suggestions...</Typography>
+      return <LinearProgress />
     } else if (data && data.geocode !== null) {
       return (
         <div>
