@@ -34,8 +34,6 @@ interface LoginProps extends RouteComponentProps<any> {
   login?: boolean
 }
 
-// TODO: Validate email
-// TODO: Validate password (min length etc)
 function Login (props: LoginProps) {
   const classes = useStyles()
 

@@ -21,7 +21,7 @@ function SingleTime (props: TimeProps) {
   const classes = useStyles()
 
   const handleChange = (date: any) => {
-    if (date.isValid()) {
+    if (date && date.isValid()) {
       props.onChange(props.id, date.toDate())
     }
   }

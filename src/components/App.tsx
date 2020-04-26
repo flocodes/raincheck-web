@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   },
 })
 
-const databaseURI = process.env.NODE_ENV === 'production' ? 'http://104.248.252.134:4000' : 'http://localhost:4000'
+const databaseURI = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_DB_URI : 'http://localhost:4000'
 console.log(`Expecting DB at ${databaseURI}`)
 const httpLink = createHttpLink({
   uri: databaseURI,
