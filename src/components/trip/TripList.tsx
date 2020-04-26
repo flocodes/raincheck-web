@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
 
 function TripList () {
   const classes = useStyles()
-  const { loading, error, data } = useQuery(ME_QUERY)
+  const { loading, error, data } = useQuery(ME_QUERY, { fetchPolicy: 'cache-and-network' })
 
   if (loading) {
     return <LoadingScreen />

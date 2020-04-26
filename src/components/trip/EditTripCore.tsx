@@ -44,8 +44,6 @@ function EditTripCore (props: EditTripCoreProps) {
   const [fromValid, setFromValid] = useState(true)
   const [toValid, setToValid] = useState(true)
 
-  const valid = (fromValid && toValid && nameValid)
-
   const [mutation, result] = useMutation(newTrip ? CREATE_TRIP_MUTATION : UPDATE_TRIP_MUTATION)
   const [deleteMutation, deleteResult] = useMutation(DELETE_TRIP_MUTATION)
 
@@ -95,7 +93,8 @@ function EditTripCore (props: EditTripCoreProps) {
       tripSubmit[key] = convertDate(tripSubmit[key])
     }
     validateForm()
-    if (valid) {
+    const invalid = Object.values(tripSubmit).some((e: any) => e === undefined || e === null)
+    if (!invalid) {
       console.log('Submitting trip:')
       console.log(tripSubmit)
       await mutation({ variables: { ...tripSubmit } })
